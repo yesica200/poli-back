@@ -190,12 +190,7 @@ class SafeCityController extends Controller
         if ($denuncia->estado !== 'PENDIENTE') {
             return response()->json(['success' => false, 'message' => 'Solo se pueden modificar denuncias pendientes'], 400);
         }
-        $fechaRegistro = strtotime($denuncia->fecha . ' ' . $denuncia->hora);
-        $now = time();
-        $diffMinutes = ($now - $fechaRegistro) / 60;
-        if ($diffMinutes > 10) {
-            return response()->json(['success' => false, 'message' => 'El tiempo para modificar esta denuncia ha expirado'], 400);
-        }
+        
         $request->validate([
             'descripcion' => 'required|string',
             'modulo_epi' => 'required|string',
