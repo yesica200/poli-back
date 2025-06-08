@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrador;
 use App\Models\Ciudadano;
 use App\Models\Policia;
 use Illuminate\Http\Request;
@@ -15,7 +16,6 @@ class AuthController extends Controller
             'contraseña' => 'required'
         ]);
 
-        // Buscar en Ciudadano
         $ciudadano = Ciudadano::where('correo', $request->correo)
             ->where('contraseña', $request->contraseña)
             ->first();
@@ -35,7 +35,6 @@ class AuthController extends Controller
             ]);
         }
 
-        // Buscar en Policia
         $policia = Policia::where('correo', $request->correo)
             ->where('contraseña', $request->contraseña)
             ->first();
@@ -55,7 +54,21 @@ class AuthController extends Controller
             ]);
         }
 
-        // Ninguno coincide
+        $admin = Administrador::where('correo', $request->correo)
+            ->where('contraseña', $request->contraseña)
+            ->first();
+
+        if ($admin) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Login exitoso (administrador)',
+                'usuario' => [
+                    'id_admin' => $admin->id_admin,
+                    'correo' => $admin->correo
+                ]
+            ]);
+        }
+
         return response()->json([
             'success' => false,
             'message' => 'Credenciales incorrectas'

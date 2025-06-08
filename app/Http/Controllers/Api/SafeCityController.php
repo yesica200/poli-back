@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ciudadano;
 use App\Models\Denuncia;
 use App\Models\Noticia;
+use App\Models\Policia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -70,7 +71,6 @@ class SafeCityController extends Controller
             'imagen' => 'nullable|string'
         ]);
 
-        // Validar imagen Cloudinary
         if ($validated['imagen'] && !str_starts_with($validated['imagen'], 'https://res.cloudinary.com/')) {
             return response()->json(['success' => false, 'message' => 'Formato de imagen no válido. Debe ser una URL de Cloudinary'], 400);
         }
@@ -291,5 +291,57 @@ class SafeCityController extends Controller
                 return $noticia;
             });
         return response()->json($noticias);
+    }
+
+    public function crearPolicia(Request $request)
+    {
+        $validated =  $request->validate([
+            'nombres' => 'required|string',
+            'apellido_paterno' => 'required|string',
+            'apellido_materno' => 'required|string',
+            'correo' => 'required|email|unique:policia,correo',
+            'contraseña' => 'required|string',
+            'id_admin' => 'required|exists:administrador,id_admin'
+        ]);
+
+        $policia = Policia::create([
+            'nombres' => $request->nombres,
+            'apellido_paterno' => $request->apellido_paterno,
+            'apellido_materno' => $request->apellido_materno,
+            'correo' => $request->correo,
+            'contraseña' => $request->contraseña,
+            'id_admin' => $request->id_admin
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Policía registrado exitosamente',
+            'policia' => $policia
+        ]);
+    }
+
+    public function obtenerPolicias()
+    {
+        $policias = Policia::all();
+        return response()->json($policias);
+    }
+
+    public function eliminarPolicia($id)
+    {
+        $policia = Policia::find($id);
+
+        if (!$policia) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Policía no encontrado'
+            ], 404);
+        }
+
+        $policia->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Policía eliminado exitosamente'
+        ]);
     }
 }

@@ -37,3 +37,6 @@ Route::get('/noticias', [SafeCityController::class, 'todasNoticias']);
 Route::get('/noticias/categoria/{categoria}', [SafeCityController::class, 'noticiasCategoria']);
 Route::get('/noticias/estadisticas', [SafeCityController::class, 'estadisticasNoticias']);
 Route::get('/noticias/buscar/{texto}', [SafeCityController::class, 'buscarNoticias']);
+Route::post('/policias', [SafeCityController::class, 'crearPolicia']);
+Route::get('/policias', [SafeCityController::class, 'obtenerPolicias']);
+Route::delete('/policias/{id}', [SafeCityController::class, 'eliminarPolicia']);
