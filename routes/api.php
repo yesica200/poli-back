@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\SafeCityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LecturaController;
+use App\Http\Controllers\NotificacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +42,7 @@ Route::get('/noticias/buscar/{texto}', [SafeCityController::class, 'buscarNotici
 Route::post('/policias', [SafeCityController::class, 'crearPolicia']);
 Route::get('/policias', [SafeCityController::class, 'obtenerPolicias']);
 Route::delete('/policias/{id}', [SafeCityController::class, 'eliminarPolicia']);
-
+Route::post('/guardar-token-push', [SafeCityController::class, 'guardarPushToken']);
 
 Route::get('/ver-administradores', [LecturaController::class, 'administradores']);
 Route::get('/ver-ciudadanos', [LecturaController::class, 'ciudadanos']);
@@ -49,3 +50,8 @@ Route::get('/ver-policias', [LecturaController::class, 'policias']);
 Route::get('/ver-denuncias', [LecturaController::class, 'denuncias']);
 Route::get('/ver-noticias', [LecturaController::class, 'noticias']);
 Route::get('/ver-notificaciones', [LecturaController::class, 'notificaciones']);
+
+
+Route::get('/notificaciones/sin-asignar', [NotificacionController::class, 'notificacionesSinAsignar']);
+Route::post('/notificaciones/asignar/{id_policia}', [NotificacionController::class, 'asignarNotificacionesAPolicia']);
+Route::get('/notificaciones/policia/{id_policia}', [NotificacionController::class, 'notificacionesPorPolicia']);

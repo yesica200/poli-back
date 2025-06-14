@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('apellido_materno')->nullable();
             $table->string('correo')->nullable();
             $table->string('contraseña')->nullable();
+             $table->string('expo_push_token')->nullable();
             $table->unsignedBigInteger('id_admin')->nullable();
 
             $table->foreign('id_admin')->references('id_admin')->on('administrador')->onDelete('set null');

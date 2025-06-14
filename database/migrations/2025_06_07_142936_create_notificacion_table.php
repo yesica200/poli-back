@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('descripcion')->nullable();
             $table->time('hora')->nullable();
             $table->date('fecha')->nullable();
+            $table->string('estado')->nullable();
             $table->unsignedBigInteger('id_policia')->nullable();
             $table->unsignedBigInteger('id_ciudadano')->nullable();
 

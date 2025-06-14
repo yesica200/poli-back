@@ -17,6 +17,7 @@ class Notificacion extends Model
         'hora',
         'fecha',
         'id_policia',
+        'estado',
         'id_ciudadano',
     ];
 
